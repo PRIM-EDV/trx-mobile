@@ -1,0 +1,3 @@
+[submodule "src/app/situation-map/map"]
+	path = src/app/situation-map/map
+	url = https://github.com/PRIM-EDV/rld-map
