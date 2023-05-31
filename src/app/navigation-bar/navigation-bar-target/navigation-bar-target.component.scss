@@ -1,0 +1,48 @@
+:host {
+    min-width: 48px;
+
+    padding-top: 12px;
+    padding-bottom: 16px;
+
+    grid-row: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    row-gap: 4px;
+}
+
+div.label {
+    padding-top: 2px;
+    height: 16px;
+    color: #a9aaac;
+    font-family: 'Fira Code';
+    font-size: 12px;
+    text-align: center;
+}
+
+div.label.active {
+    color: #ffffff;
+}
+
+div.icon {
+    height: 32px;
+    max-width: 64px;
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.icon img{
+    width: 24px;
+}
+
+div.icon.active img{
+    width: 24px;
+
+    filter: brightness(2);
+}

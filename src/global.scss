@@ -24,3 +24,25 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+/* Global SCSS */
+@font-face {
+    font-family: 'Fira Code';
+    src: url('assets/fonts/FiraCode/FiraCode-Regular.ttf')
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    src: url('assets/fonts/FiraCode/FiraCode-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    src: url('assets/fonts/FiraCode/FiraCode-Light.ttf');
+    font-weight: 300;
+}
+
+body {
+    background-image: url( 'assets/endless-constellation.svg' );
+}

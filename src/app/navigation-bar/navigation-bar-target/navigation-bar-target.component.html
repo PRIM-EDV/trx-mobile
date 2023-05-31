@@ -1,0 +1,7 @@
+<div class="icon" [class.active]="isActive">
+  <img src="assets/img/{{icon}}_filled.svg" *ngIf="isActive">
+  <img src="assets/img/{{icon}}_outlined.svg" *ngIf="!isActive">
+</div>
+<div class="label" [class.active]="isActive">
+  <ng-content></ng-content>
+</div>
