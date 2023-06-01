@@ -1,6 +1,4 @@
 :host {
-    height: 80px;
-
     position: fixed;
     bottom: 0; left: 0; right: 0;
 
@@ -17,14 +15,10 @@ div.container {
     flex-grow: 1;
 
     max-width: 800px;
+    display: none;
+}
 
+div.container.active {
     display: grid;
-
-    // grid-template-rows: 5px;
     grid-auto-columns: 1fr;
-
-    // display: flex;
-    // flex-direction: row;
-    // flex-wrap: nowrap;
-    // justify-content: space-between;
 }

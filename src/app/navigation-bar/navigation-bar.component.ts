@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ph-navigation-bar',
@@ -7,8 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBarComponent  implements OnInit {
 
-  constructor() { }
+  public isActive: boolean = false;
 
-  ngOnInit() {}
+  constructor(public ref: ElementRef) {
+    window.addEventListener('click', (e) => {  
+      if(!ref.nativeElement.contains(e.target)) {
+        this.isActive = !this.isActive;
+        console.log(this.isActive)
+      }
+    });
+  }
 
+  ngOnInit() {
+
+  }
 }
