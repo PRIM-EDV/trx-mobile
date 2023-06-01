@@ -13,16 +13,35 @@
 }
 
 div.label {
-    padding-top: 2px;
+    padding-top: 1px;
     height: 16px;
     color: #a9aaac;
     font-family: 'Fira Code';
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
 }
 
 div.label.active {
-    color: #ffffff;
+    filter: brightness(1.4);
+    font-weight: 500;
+
+    // color: #ffffff;
+    // color: #3ea2dd;
+}
+
+div.indicator {
+    width: 64px;
+    height: 32px;
+
+    padding-top: 4px;
+
+    text-align: center;
+}
+
+div.icon.active div.indicator {
+    background-color: #28343e;
+
+    border-radius: 16px;
 }
 
 div.icon {
@@ -44,5 +63,5 @@ div.icon img{
 div.icon.active img{
     width: 24px;
 
-    filter: brightness(2);
+    filter: brightness(1.4);
 }
