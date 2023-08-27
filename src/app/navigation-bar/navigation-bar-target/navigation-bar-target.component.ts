@@ -1,6 +1,6 @@
-import { AfterContentInit, Component, ContentChild, Input, OnInit} from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'ph-navigation-bar-target',
@@ -28,10 +28,16 @@ export class NavigationBarTargetComponent  implements AfterContentInit, OnInit {
           this.isActive = false;
         }
     });
+
   }
 
   ngAfterContentInit() {
 
+  }
+
+  @HostListener('click')
+  onClick(ev: MouseEvent) {
+    this.router.navigate([this.target]);
   }
 
 }

@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+div.content {
+    flex-grow: 1;
+    background-color: #181818;
+    max-width: 800px;
+
+    h1 {
+        padding-left: 24px;
+        margin-bottom: 24px;
+    }
+
+    div.device {
+        font-size: 20px;
+        height: 96px;
+        padding: 40px 24px 24px 24px;
+        line-height: 24px;
+        background-color: #28343e;
+
+        margin: 0 24px 0 24px;
+        border-radius: 12px;
+
+        img {
+            vertical-align: middle;
+            height: 24px;
+            margin-top: -4px;
+            margin-right: 24px;
+        }
+    }
+
+    div.spacer {
+        height: 1px;
+        background-color: #2F2E2E;
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+
+    div.category {
+        padding-left: 24px;
+        color: #414040;
+    }
+}

@@ -11,9 +11,8 @@ export class NavigationBarComponent  implements OnInit {
 
   constructor(public ref: ElementRef) {
     window.addEventListener('click', (e) => {  
-      if(!ref.nativeElement.contains(e.target)) {
+      if(!e.composedPath().includes(ref.nativeElement)) {
         this.isActive = !this.isActive;
-        console.log(this.isActive)
       }
     });
   }
