@@ -27,6 +27,10 @@ export class BluetoothService {
     });
   }
 
+  public async getAvailableDevices() {
+    this.ble.scan([], 5).forEach((device: any) => console.log(device));
+  }
+
   public async connect(address: string): Promise<any> {
     return new Promise((resolve, reject) => {
         console.log(address);

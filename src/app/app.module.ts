@@ -9,15 +9,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { BLE } from '@awesome-cordova-plugins/ble/ngx';
 import { NavigationBarModule } from './navigation-bar/navigation-bar.module';
 import { SituationMapModule } from './situation-map/situation-map.module';
+import { ElementsModule } from './elements/elements.module';
+import { DeviceManagerComponent } from './device-manager/device-manager.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DeviceManagerComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule, 
     NavigationBarModule,
-    SituationMapModule
+    SituationMapModule,
+    ElementsModule
   ],
   providers: [
     BLE,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BluetoothService } from '../backend/bluetooth.service';
 
 @Component({
   selector: 'app-device-manager',
@@ -7,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceManagerComponent  implements OnInit {
 
-  constructor() { }
+  constructor(private readonly bluetooth: BluetoothService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.bluetooth.getAvailableDevices();
+  }
 
 }
