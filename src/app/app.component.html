@@ -3,7 +3,7 @@
   <ion-router-outlet></ion-router-outlet>
 
   <!-- Navigation-bar -->
-  <ph-navigation-bar>
+  <ph-navigation-bar [class.hidden]="currentRoute=='/map' && !showNavigationBar">
     <ph-navigation-bar-target target="/map" icon="explore">
       Map
     </ph-navigation-bar-target>

@@ -1,23 +1,17 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'ph-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
 })
-export class NavigationBarComponent  implements OnInit {
-
+export class NavigationBarComponent {
   public isActive: boolean = false;
+  public activatedRoute: string = ''; 
 
-  constructor(public ref: ElementRef) {
-    window.addEventListener('click', (e) => {  
-      if(!e.composedPath().includes(ref.nativeElement)) {
-        this.isActive = !this.isActive;
-      }
-    });
-  }
-
-  ngOnInit() {
-
+  constructor(public ref: ElementRef, private router: Router) {
+   
   }
 }

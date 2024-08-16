@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BLE } from '@awesome-cordova-plugins/ble/ngx';
 import { BleClient, ScanResult } from '@capacitor-community/bluetooth-le';
 import { Subject } from 'rxjs';
 
@@ -23,7 +22,7 @@ export class BluetoothService {
   public onDisconnect: Subject<void> = new Subject<void>();
   public onData: Subject<TrackerData> = new Subject<TrackerData>();
 
-  constructor(private readonly ble: BLE) { 
+  constructor() { 
 
     BleClient.initialize();
     
@@ -33,11 +32,13 @@ export class BluetoothService {
       this.isEnabled = false;
     });
 
-    this.ble.bondedDevices().then((devices) => {
+    BleClient.getConnectedDevices([]).then((devices) => {
       console.log(devices);
     });
 
-    console.log(BleClient)
+    // this.ble.bondedDevices().then((devices) => {
+    //   console.log(devices);
+    // });
   }
 
   public async getAvailableDevices(): Promise<ScanResult[]> {
@@ -67,32 +68,31 @@ export class BluetoothService {
 
   public async connect(address: string): Promise<any> {
     return new Promise((resolve, reject) => {
-        console.log(address);
-        this.ble.connect(address).subscribe({
-          next: (device) => {
-            this.connectedDevice = device;
-            this.onConnect.next(device);
-            // this.deviceConfig.updateConfig({device: d})
-            this.ble.startNotification(address, 'ffe0', 'ffe1').subscribe(
-              (data: ArrayBuffer) => {
-                const s = new TextDecoder().decode(new Uint8Array(data));
-                console.log(s);
-                this.onData.next(this.parseSerial(s));
-              }
-            );
-          },
-          error: (err) => {
-            if (this.connectedDevice != null) {
-                this.onDisconnect.next();
-                this.connectedDevice = null;
-            }
-          }
-        });
+        // BleClient.connect(address).subscribe({
+        //   next: (device) => {
+        //     this.connectedDevice = device;
+        //     this.onConnect.next(device);
+        //     // this.deviceConfig.updateConfig({device: d})
+        //     this.ble.startNotification(address, 'ffe0', 'ffe1').subscribe(
+        //       (data: ArrayBuffer) => {
+        //         const s = new TextDecoder().decode(new Uint8Array(data));
+        //         console.log(s);
+        //         this.onData.next(this.parseSerial(s));
+        //       }
+        //     );
+        //   },
+        //   error: (err) => {
+        //     if (this.connectedDevice != null) {
+        //         this.onDisconnect.next();
+        //         this.connectedDevice = null;
+        //     }
+        //   }
+        // });
     });
   }
 
   public async enable() {
-    await this.ble.enable();
+    await BleClient.enable();
     this.isEnabled = true;
   }
 

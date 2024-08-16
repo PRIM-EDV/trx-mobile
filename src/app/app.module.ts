@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BLE } from '@awesome-cordova-plugins/ble/ngx';
 import { NavigationBarModule } from './navigation-bar/navigation-bar.module';
 import { SituationMapModule } from './situation-map/situation-map.module';
 import { ElementsModule } from './elements/elements.module';
@@ -23,7 +20,6 @@ import { DeviceManagerComponent } from './device-manager/device-manager.componen
     ElementsModule
   ],
   providers: [
-    BLE,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],

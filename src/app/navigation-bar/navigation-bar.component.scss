@@ -15,10 +15,7 @@ div.container {
     flex-grow: 1;
 
     max-width: 800px;
-    display: none;
-}
-
-div.container.active {
     display: grid;
     grid-auto-columns: 1fr;
 }
+
