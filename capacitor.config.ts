@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'trx-mobile',
-  webDir: 'www',
+  webDir: 'www/browser',
   server: {
     androidScheme: 'https'
   }
