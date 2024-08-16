@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'ph-switch',
@@ -7,8 +7,8 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 })
 export class SwitchComponent  implements OnInit {
 
-  @Output() switch = new EventEmitter<boolean>();
-  public selected: boolean = false;
+  @Input() selected = false;
+  @Output() selectedChange = new EventEmitter<void>();
 
   constructor() { }
 
@@ -16,8 +16,7 @@ export class SwitchComponent  implements OnInit {
 
   @HostListener('click')
   onClick(ev: MouseEvent) {
-    this.selected = !this.selected;
-    this.switch.next(this.selected);
+    this.selectedChange.emit();
   }
 
 }

@@ -16,19 +16,26 @@ export class BluetoothService {
 
   public connectedDevice: any = null;
   public isConnected: boolean = false;
+  public isEnabled: boolean = false;
 
   public onConnect: Subject<any> = new Subject<any>();
   public onDisconnect: Subject<void> = new Subject<void>();
   public onData: Subject<TrackerData> = new Subject<TrackerData>();
 
   constructor(private readonly ble: BLE) { 
+    this.ble.isEnabled().then(() => {
+      this.isEnabled = true;
+    }, () => {
+      this.isEnabled = false;
+    });
+
     this.ble.bondedDevices().then((devices) => {
       console.log(devices);
     });
   }
 
-  public async getAvailableDevices() {
-    this.ble.scan([], 5).forEach((device: any) => console.log(device));
+  public getAvailableDevices() {
+    return this.ble.scan([], 5);
   }
 
   public async connect(address: string): Promise<any> {
@@ -55,6 +62,11 @@ export class BluetoothService {
           }
         });
     });
+  }
+
+  public async enable() {
+    await this.ble.enable();
+    this.isEnabled = true;
   }
 
   private parseSerial(s: string): TrackerData {

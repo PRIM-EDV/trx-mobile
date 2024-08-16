@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BackendService } from './backend/backend.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +6,5 @@ import { BackendService } from './backend/backend.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private backend: BackendService) {}
+  constructor() {}
 }

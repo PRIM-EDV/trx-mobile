@@ -2,16 +2,19 @@
   <h1>Device</h1>
   <div class="setting">
     <span>Bluetooth</span>
-    <ph-switch></ph-switch>
+    <ph-switch [selected]="bluetooth.isEnabled" (selectedChange)="onBluetoothChange()"></ph-switch>
   </div>
-  <div class="device">
+  <div *ngIf="this.bluetooth.connectedDevice" class="device">
     <img src="assets/img/bluetooth_connected.svg" />
-    TRX 1
+    {{this.bluetooth.connectedDevice.name}}
   </div>
 
   <div class="spacer"></div>
   <div class="category">
     Available devices
+  </div>
+  <div class="available" *ngFor="let device of this.availableDevices" (click)="connect(device.id)">
+    {{device.name}}
   </div>
   <div class="spacer"></div>
   <div class="category">

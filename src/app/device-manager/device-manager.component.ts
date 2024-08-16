@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BluetoothService } from '../backend/bluetooth.service';
 
 @Component({
@@ -8,10 +8,30 @@ import { BluetoothService } from '../backend/bluetooth.service';
 })
 export class DeviceManagerComponent  implements OnInit {
 
-  constructor(private readonly bluetooth: BluetoothService) { }
+  public availableDevices: Array<{name: string, id: string}> = [];
+
+  constructor(public readonly bluetooth: BluetoothService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.bluetooth.getAvailableDevices();
+    this.availableDevices = [];
+
+    this.bluetooth.getAvailableDevices().forEach((device) => {
+      if (device.name) {
+        this.availableDevices.push({name: device.name, id: device.id});
+        this.cdr.detectChanges();
+      }
+    });
   }
 
+
+  public onBluetoothChange() {
+    if (!this.bluetooth.isEnabled) {
+      this.bluetooth.enable();
+    }
+  }
+
+  public async connect(id: string) {
+    await this.bluetooth.connect(id);
+    this.cdr.detectChanges();
+  }
 }
