@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BLE } from '@awesome-cordova-plugins/ble/ngx';
+import { BleClient, ScanResult } from '@capacitor-community/bluetooth-le';
 import { Subject } from 'rxjs';
 
 export interface TrackerData {
@@ -23,7 +24,10 @@ export class BluetoothService {
   public onData: Subject<TrackerData> = new Subject<TrackerData>();
 
   constructor(private readonly ble: BLE) { 
-    this.ble.isEnabled().then(() => {
+
+    BleClient.initialize();
+    
+    BleClient.isEnabled().then(() => {
       this.isEnabled = true;
     }, () => {
       this.isEnabled = false;
@@ -32,10 +36,33 @@ export class BluetoothService {
     this.ble.bondedDevices().then((devices) => {
       console.log(devices);
     });
+
+    console.log(BleClient)
   }
 
-  public getAvailableDevices() {
-    return this.ble.scan([], 5);
+  public async getAvailableDevices(): Promise<ScanResult[]> {
+    return new Promise(async (resolve, reject) => {
+      const devices: ScanResult [] = [];
+      console.log('Scanning for devices');
+      try {
+        await BleClient.requestLEScan({
+          services: []
+        }, (device) => {
+          console.log('Found device', device);
+          devices.push(device);
+        })
+        console.log('???');
+        setTimeout(async () => {
+          console.log('Stopping scan');
+          await BleClient.stopLEScan();
+          resolve(devices);
+        }, 30000);
+      } catch (error) {
+        console.error(error);
+        reject(error);
+      } 
+
+    });
   }
 
   public async connect(address: string): Promise<any> {

@@ -1,5 +1,5 @@
 <div class="content">
-  <h1>Device</h1>
+  <h1 (click)="scan()">Device</h1>
   <div class="setting">
     <span>Bluetooth</span>
     <ph-switch [selected]="bluetooth.isEnabled" (selectedChange)="onBluetoothChange()"></ph-switch>

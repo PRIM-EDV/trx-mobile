@@ -12,12 +12,17 @@ export class DeviceManagerComponent  implements OnInit {
 
   constructor(public readonly bluetooth: BluetoothService, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.availableDevices = [];
 
-    this.bluetooth.getAvailableDevices().forEach((device) => {
-      if (device.name) {
-        this.availableDevices.push({name: device.name, id: device.id});
+
+  }
+
+  public async scan() {
+    (await this.bluetooth.getAvailableDevices()).forEach((device) => {
+      if (device.localName) {
+        this.availableDevices.push({name: device.localName, id: ""});
+        console.log(device);
         this.cdr.detectChanges();
       }
     });

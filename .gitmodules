@@ -1,3 +1,6 @@
 [submodule "src/app/situation-map/map"]
 	path = src/app/situation-map/map
 	url = https://github.com/PRIM-EDV/rld-map
+[submodule "proto/trx"]
+	path = proto/trx
+	url = https://github.com/PRIM-EDV/trx-protocol
