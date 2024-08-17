@@ -7,7 +7,7 @@
 div.content {
     flex-grow: 1;
     background-color: #181818;
-    max-width: 800px;
+    max-width: 768px;
 
     h1 {
         padding-left: 24px;
@@ -28,24 +28,6 @@ div.content {
 
     }
 
-    div.device {
-        font-size: 20px;
-        height: 96px;
-        padding: 40px 24px 24px 24px;
-        line-height: 24px;
-        background-color: #28343e;
-
-        margin: 0 24px 0 24px;
-        border-radius: 12px;
-
-        img {
-            vertical-align: middle;
-            height: 24px;
-            margin-top: -4px;
-            margin-right: 24px;
-        }
-    }
-
     div.spacer {
         height: 1px;
         background-color: #2F2E2E;
@@ -57,6 +39,62 @@ div.content {
         padding-left: 24px;
         color: #414040;
     }
+
+    div.device {
+        display: grid;
+        grid-template-columns: 66px 1fr 66px;
+        font-size: 18px;
+        line-height: 64px;
+        vertical-align: middle;
+
+
+        img {
+            width: 24px;
+            margin: 20px 6px 0 20px;
+        }
+    }
+
+    div.device.disabled {
+        color: #414040;
+
+        .cls-1 {
+            fill: #414040;
+        }
+    }
+
+    div.connected {
+        display: flex;
+        flex-direction: column;
+        line-height: 24px;
+        margin-top: 12px;
+        span {
+            font-size: 18px;
+
+        }
+
+        span:nth-child(2) {
+            font-size: 12px;
+            color: #bbb;
+        }
+    }
+
+    // div.device {
+    //     font-size: 20px;
+    //     height: 96px;
+    //     padding: 40px 24px 24px 24px;
+    //     line-height: 24px;
+    //     background-color: #28343e;
+
+    //     margin: 0 24px 0 24px;
+    //     border-radius: 12px;
+
+    //     img {
+    //         vertical-align: middle;
+    //         height: 24px;
+    //         margin-top: -4px;
+    //         margin-right: 24px;
+    //     }
+    // }
 
     div.available {
         font-size: 18px;

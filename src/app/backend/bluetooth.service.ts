@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BleClient, ScanResult } from '@capacitor-community/bluetooth-le';
-import { Subject } from 'rxjs';
+import { BleClient, BleDevice, numberToUUID, ScanResult } from '@capacitor-community/bluetooth-le';
+import { Observable, Subject } from 'rxjs';
 
 export interface TrackerData {
   id: number;
@@ -8,6 +8,9 @@ export interface TrackerData {
   py: number;
   ts: number;
 }
+
+const CUSTOM_SERVICE = numberToUUID(0xffe0);
+const CUSTOM_CHARACTERISTIC = numberToUUID(0xffe1);
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +20,7 @@ export class BluetoothService {
   public connectedDevice: any = null;
   public isConnected: boolean = false;
   public isEnabled: boolean = false;
+  public isScanning: boolean = false;
 
   public onConnect: Subject<any> = new Subject<any>();
   public onDisconnect: Subject<void> = new Subject<void>();
@@ -32,68 +36,64 @@ export class BluetoothService {
       this.isEnabled = false;
     });
 
-    BleClient.getConnectedDevices([]).then((devices) => {
-      console.log(devices);
-    });
-
-    // this.ble.bondedDevices().then((devices) => {
-    //   console.log(devices);
-    // });
+    this.autoconnectFromStore();
   }
 
-  public async getAvailableDevices(): Promise<ScanResult[]> {
-    return new Promise(async (resolve, reject) => {
-      const devices: ScanResult [] = [];
-      console.log('Scanning for devices');
-      try {
-        await BleClient.requestLEScan({
-          services: []
-        }, (device) => {
-          console.log('Found device', device);
-          devices.push(device);
-        })
-        console.log('???');
-        setTimeout(async () => {
-          console.log('Stopping scan');
-          await BleClient.stopLEScan();
-          resolve(devices);
-        }, 30000);
-      } catch (error) {
-        console.error(error);
-        reject(error);
-      } 
+  public getAvailableDevices(): Observable<ScanResult> {
+    BleClient.stopLEScan();
 
+    if (this.isScanning) {
+      return new Observable((observer) => {
+        observer.error("Scanning already in progress");
+      });
+    }
+
+    return new Observable((observer) => {
+      BleClient.requestLEScan({
+        services: [
+          CUSTOM_SERVICE
+        ]
+      }, (device) => {
+        observer.next(device);
+      });
+      this.isScanning = true;
+
+      window.setTimeout(async () => {
+        this.isScanning = false;
+        observer.complete();
+        await BleClient.stopLEScan();
+      }, 5000);
     });
   }
 
-  public async connect(address: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-        // BleClient.connect(address).subscribe({
-        //   next: (device) => {
-        //     this.connectedDevice = device;
-        //     this.onConnect.next(device);
-        //     // this.deviceConfig.updateConfig({device: d})
-        //     this.ble.startNotification(address, 'ffe0', 'ffe1').subscribe(
-        //       (data: ArrayBuffer) => {
-        //         const s = new TextDecoder().decode(new Uint8Array(data));
-        //         console.log(s);
-        //         this.onData.next(this.parseSerial(s));
-        //       }
-        //     );
-        //   },
-        //   error: (err) => {
-        //     if (this.connectedDevice != null) {
-        //         this.onDisconnect.next();
-        //         this.connectedDevice = null;
-        //     }
-        //   }
-        // });
+  public async connect(device: BleDevice): Promise<any> {
+    await BleClient.connect(device.deviceId, this.deviceDisconnectHandler.bind(this));
+    await BleClient.startNotifications(device.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC, (data: DataView) => {
+      const s = new TextDecoder().decode(new Uint8Array(data.buffer));
+      this.onData.next(this.parseSerial(s));
     });
+
+    this.connectedDevice = device;
+    this.onConnect.next(device);
+
+    this.storeConnectedDevice(device);
+  }
+
+  public disconnect() {
+    BleClient.stopNotifications(this.connectedDevice.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC);
+    BleClient.disconnect(this.connectedDevice.deviceId);
+    this.connectedDevice = null;
+    this.onDisconnect.next();
   }
 
   public async enable() {
     await BleClient.enable();
     this.isEnabled = true;
+  }
+
+  public async disable() {
+    await BleClient.disable();
+    this.isEnabled = false;
   }
 
   private parseSerial(s: string): TrackerData {
@@ -103,7 +103,25 @@ export class BluetoothService {
     const flags = data[1] >> 4;
     const px = ((data[1] & 0x0f) << 6) | ((data[2] & 0xfc) >> 2);
     const py = ((data[2] & 0x03) << 8) | data[3];
-
+    console.log('Parsed data:', id, flags, px, py);
     return {id: id, px: px, py: py, ts: Date.now()};
+  }
+
+  private deviceDisconnectHandler(deviceId: string) {
+    if (this.connectedDevice?.deviceId === deviceId) {
+      this.connectedDevice = null;
+      this.onDisconnect.next();
+    }
+  }
+
+  private storeConnectedDevice(device: BleDevice) {
+    localStorage.setItem('connectedDevice', JSON.stringify(device));
+  }
+
+  private async autoconnectFromStore(): Promise<void> {
+    const device = localStorage.getItem('connectedDevice');
+    if (device) {
+      await this.connect(JSON.parse(device));
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BluetoothService } from '../backend/bluetooth.service';
+import { BleDevice } from '@capacitor-community/bluetooth-le';
 
 @Component({
   selector: 'app-device-manager',
@@ -8,26 +9,39 @@ import { BluetoothService } from '../backend/bluetooth.service';
 })
 export class DeviceManagerComponent  implements OnInit {
 
-  public availableDevices: Array<{name: string, id: string}> = [];
+  public availableDevices: Array<BleDevice> = [];
+  public isConnecting: boolean = false;
 
   constructor(public readonly bluetooth: BluetoothService, private cdr: ChangeDetectorRef) { }
 
   async ngOnInit() {
-    this.availableDevices = [];
+    // this.bluetooth.connectedDevice = {deviceId: '123', name: 'Test Device'};
+  }
 
-
+  public availableDevicesWithoutConnectedDevice() {
+    return this.availableDevices.filter((device) => device.deviceId !== this.bluetooth.connectedDevice?.deviceId);
   }
 
   public async scan() {
-    (await this.bluetooth.getAvailableDevices()).forEach((device) => {
-      if (device.localName) {
-        this.availableDevices.push({name: device.localName, id: ""});
-        console.log(device);
+    this.bluetooth.getAvailableDevices().subscribe({
+      next: (scanResult) => {
+        this.availableDevices.push(scanResult.device);
+        console.log(scanResult);
         this.cdr.detectChanges();
+      },
+      complete: () => {
+        console.log('Scan complete');
       }
     });
   }
 
+  public toggleBluetooth() {  
+    if (this.bluetooth.isEnabled) {
+      this.bluetooth.disable();
+    } else {
+      this.bluetooth.enable();
+    }
+  } 
 
   public onBluetoothChange() {
     if (!this.bluetooth.isEnabled) {
@@ -35,8 +49,10 @@ export class DeviceManagerComponent  implements OnInit {
     }
   }
 
-  public async connect(id: string) {
-    await this.bluetooth.connect(id);
+  public async connect(device: BleDevice) {
+    this.isConnecting = true;
+    await this.bluetooth.connect(device);
     this.cdr.detectChanges();
+    this.isConnecting = false;
   }
 }
