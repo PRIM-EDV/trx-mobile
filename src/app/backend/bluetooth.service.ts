@@ -99,11 +99,10 @@ export class BluetoothService {
   private parseSerial(s: string): TrackerData {
     const data: any = s.split(':');
 
-    const id = data[0];
+    const id = parseInt(data[0]);
     const flags = data[1] >> 4;
     const px = ((data[1] & 0x0f) << 6) | ((data[2] & 0xfc) >> 2);
     const py = ((data[2] & 0x03) << 8) | data[3];
-    console.log('Parsed data:', id, flags, px, py);
     return {id: id, px: px, py: py, ts: Date.now()};
   }
 
