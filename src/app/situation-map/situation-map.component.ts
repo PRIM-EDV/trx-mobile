@@ -39,7 +39,7 @@ export class SituationMapComponent  implements OnInit, AfterViewInit {
     console.log(data)
     switch (true) {
       case data.id === 0: 
-        this.updateMapEntity(data, MapEntityType.TYPE_SELF);
+        this.updateMapEntity(data, MapEntityType.TYPE_UNDEFINED);
         break;
       case data.id < 128:
         this.updateMapEntity(data, MapEntityType.TYPE_FRIEND);
