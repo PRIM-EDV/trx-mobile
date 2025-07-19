@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.scss'],
+    standalone: false
 })
 export class AppComponent {
   public currentRoute: string = '';

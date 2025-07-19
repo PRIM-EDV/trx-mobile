@@ -3,9 +3,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
-  selector: 'ph-navigation-bar-target',
-  templateUrl: './navigation-bar-target.component.html',
-  styleUrls: ['./navigation-bar-target.component.scss'],
+    selector: 'ph-navigation-bar-target',
+    templateUrl: './navigation-bar-target.component.html',
+    styleUrls: ['./navigation-bar-target.component.scss'],
+    standalone: false
 })
 export class NavigationBarTargetComponent  implements AfterContentInit, OnInit {
 

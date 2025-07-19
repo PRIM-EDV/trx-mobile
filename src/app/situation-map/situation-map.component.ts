@@ -7,9 +7,10 @@ import { MapEntityData } from './map/common/map-entity-data';
 import { MapEntityType } from './map/common/map-entity';
 
 @Component({
-  selector: 'app-situation-map',
-  templateUrl: './situation-map.component.html',
-  styleUrls: ['./situation-map.component.scss'],
+    selector: 'app-situation-map',
+    templateUrl: './situation-map.component.html',
+    styleUrls: ['./situation-map.component.scss'],
+    standalone: false
 })
 export class SituationMapComponent  implements OnInit, AfterViewInit {
 

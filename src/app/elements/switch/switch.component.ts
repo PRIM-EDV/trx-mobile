@@ -1,9 +1,10 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'ph-switch',
-  templateUrl: './switch.component.html',
-  styleUrls: ['./switch.component.scss'],
+    selector: 'ph-switch',
+    templateUrl: './switch.component.html',
+    styleUrls: ['./switch.component.scss'],
+    standalone: false
 })
 export class SwitchComponent  implements OnInit {
 

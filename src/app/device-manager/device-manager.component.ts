@@ -3,9 +3,10 @@ import { BluetoothService } from '../backend/bluetooth.service';
 import { BleDevice } from '@capacitor-community/bluetooth-le';
 
 @Component({
-  selector: 'app-device-manager',
-  templateUrl: './device-manager.component.html',
-  styleUrls: ['./device-manager.component.scss'],
+    selector: 'app-device-manager',
+    templateUrl: './device-manager.component.html',
+    styleUrls: ['./device-manager.component.scss'],
+    standalone: false
 })
 export class DeviceManagerComponent  implements OnInit {
 
