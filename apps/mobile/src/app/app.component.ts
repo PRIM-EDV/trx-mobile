@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { PhNavigationBar } from './infrastructure/ui/navigation-bar/navigation-bar-component/navigation-bar.component';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   public currentRoute: string = '';
   public showNavigationBar: boolean = true;
 
-  @ViewChild(NavigationBarComponent) navigationBar!: NavigationBarComponent;
+  @ViewChild(PhNavigationBar) navigationBar!: PhNavigationBar;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     window.addEventListener('click', (e) => {  

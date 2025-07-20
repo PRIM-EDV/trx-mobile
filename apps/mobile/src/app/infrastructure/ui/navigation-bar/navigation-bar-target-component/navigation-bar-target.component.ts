@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, ElementRef, HostListener, Input, OnInit} from '@angular/core';
+import { AfterContentInit, Component, HostListener, Input, OnInit} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -6,9 +6,9 @@ import { filter } from 'rxjs';
     selector: 'ph-navigation-bar-target',
     templateUrl: './navigation-bar-target.component.html',
     styleUrls: ['./navigation-bar-target.component.scss'],
-    standalone: false
+    standalone: true
 })
-export class NavigationBarTargetComponent  implements AfterContentInit, OnInit {
+export class PhNavigationBarTarget implements AfterContentInit, OnInit {
 
   @Input() target?: String
   @Input() icon?: String
