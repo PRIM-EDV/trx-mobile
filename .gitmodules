@@ -4,3 +4,6 @@
 [submodule "proto/trx"]
 	path = proto/trx
 	url = https://github.com/PRIM-EDV/trx-protocol
+[submodule "libs/trx-map"]
+	path = libs/trx-map
+	url = https://github.com/PRIM-EDV/trx-map

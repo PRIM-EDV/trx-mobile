@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MapComponent } from './map/map.component';
-import { MapEntityStatus } from 'proto/trx/trx.entity';
 import { v4 } from 'uuid';
 import { BluetoothService, TrackerData } from '../backend/bluetooth.service';
 import { MapEntityData } from './map/common/map-entity-data';
 import { MapEntityType } from './map/common/map-entity';
+
+import { MapEntityStatus } from '../../../../../proto/trx/trx.entity'
 
 @Component({
     selector: 'app-situation-map',

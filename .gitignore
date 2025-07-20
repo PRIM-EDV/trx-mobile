@@ -12,28 +12,25 @@ $RECYCLE.BIN/
 *.log
 log.txt
 
-
 /.sourcemaps
 /.versions
 /coverage
 
 # Ionic
 /.ionic
-/www
-/platforms
+**/platforms
+platforms/**
 /plugins
 /android
 
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+dist
+build
+www
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+node_modules
+
 
 # IDEs and editors
 .idea/
@@ -46,24 +43,8 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
+.vscode
 
 # Miscellaneous
-/.angular
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-
-# System files
-.DS_Store
-Thumbs.db
+.angular
+.angular/cache
