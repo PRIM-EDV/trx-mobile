@@ -4,7 +4,8 @@
   "workspaces": [
     "apps/*",
     "libs/*",
-    "libs/maptool/*"
+    "libs/phobos/*",
+    "libs/phobos-maptool/*"
   ],
   "devDependencies": {
     "lerna": "^8.2.2"
