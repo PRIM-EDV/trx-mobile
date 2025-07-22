@@ -1,11 +1,13 @@
 import { Component, computed, Signal } from '@angular/core';
-import { Entity, EntityClickEvent, MapClickEvent, TrxMap } from '@trx/map';
+import { Entity, TrxMap } from '@trx/map';
+
 import { MapEntityService } from './core/map-entity.service';
+import { toEntity } from './infrastructure/mapper/entity.mapper';
 
 @Component({
   selector: 'app-map',
   imports: [
-
+    TrxMap
   ],
   standalone: true,
   templateUrl: './map.component.html',
@@ -14,17 +16,10 @@ import { MapEntityService } from './core/map-entity.service';
 export class MapComponent {
 
   public entities: Signal<Entity[]> = computed(() => {
-    // return this.entity.entities().map((e) => toEntity(e));
+    return this.entity.entities().map((e) => toEntity(e));
   }); 
 
   constructor(
-    // public readonly  entity: MapEntityService,
-    // private readonly contextMenu: ContextMenuService,
-    // private readonly dialog: DialogService,
-    // private readonly facade: EntityFacadeService,
+    public readonly  entity: MapEntityService,
   ) { }
-
-  public handleEntityMoved(entity: Entity) {
-    console.log('Entity moved:', entity);
-  }
 }

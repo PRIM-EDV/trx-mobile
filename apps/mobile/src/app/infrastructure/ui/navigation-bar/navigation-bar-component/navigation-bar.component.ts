@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef} from '@angular/core';
 
 @Component({
     selector: 'ph-navigation-bar',
+    imports: [
+      CommonModule
+    ],
     templateUrl: './navigation-bar.component.html',
     styleUrls: ['./navigation-bar.component.scss'],
     standalone: true

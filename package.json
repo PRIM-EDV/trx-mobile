@@ -3,9 +3,9 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "libs/*"
+    "libs/*",
+    "libs/maptool/*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "lerna": "^8.2.2"
   }

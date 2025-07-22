@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { AfterContentInit, Component, HostListener, Input, OnInit} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
     selector: 'ph-navigation-bar-target',
+    imports: [
+      CommonModule
+    ],
     templateUrl: './navigation-bar-target.component.html',
     styleUrls: ['./navigation-bar-target.component.scss'],
     standalone: true

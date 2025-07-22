@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { SituationMapComponent } from './situation-map/situation-map.component';
 import { DeviceManagerComponent } from './device-manager/device-manager.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'map',
-    component: SituationMapComponent
+    component: MapComponent
     // loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {

@@ -31,6 +31,8 @@
     "@capacitor/status-bar": "^6.0.0",
     "@ionic/angular": "^8.6.5",
     "@ionic/angular-server": "^8.6.5",
+    "@phobos-maptool/models": "^0.1.0",
+    "@trx/map": "^0.1.2",
     "hammerjs": "^2.0.8",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",

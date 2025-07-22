@@ -1,5 +1,5 @@
-import { MapEntity, MapEntityStatus, MapEntityType } from "@phobos-maptool/models";
 import { Entity, EntityState, EntityType } from "@trx/map";
+import { MapEntity, MapEntityStatus, MapEntityType } from "@phobos-maptool/models";
 
 export function toEntity(entity: MapEntity): Entity {
   const base = {
@@ -33,6 +33,14 @@ export function toEntity(entity: MapEntity): Entity {
         type: EntityType.OBJECT,
         size: 0,
         text: entity.entity.name,
+        state: EntityState.NORMAL,
+      };
+    default:
+      return {
+        ...base,
+        type: EntityType.UNDEFINED,
+        size: 0,
+        text: "",
         state: EntityState.NORMAL,
       };
   }
