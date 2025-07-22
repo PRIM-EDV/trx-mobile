@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { BluetoothService } from '../backend/bluetooth.service';
+import { BluetoothService } from '../infrastructure/bluetooth/bluetooth.service';
 import { BleDevice } from '@capacitor-community/bluetooth-le';
 
 @Component({

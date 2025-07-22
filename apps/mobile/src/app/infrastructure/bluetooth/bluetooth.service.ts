@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { BleClient, BleDevice, numberToUUID, ScanResult } from '@capacitor-community/bluetooth-le';
 import { Observable, Subject } from 'rxjs';
 
-export interface TrackerData {
-  id: number;
-  px: number;
-  py: number;
-  ts: number;
-}
+// export interface TrackerData {
+//   id: number;
+//   px: number;
+//   py: number;
+//   ts: number;
+// }
 
 const CUSTOM_SERVICE = numberToUUID(0xffe0);
 const CUSTOM_CHARACTERISTIC = numberToUUID(0xffe1);
@@ -24,7 +24,8 @@ export class BluetoothService {
 
   public onConnect: Subject<any> = new Subject<any>();
   public onDisconnect: Subject<void> = new Subject<void>();
-  public onData: Subject<TrackerData> = new Subject<TrackerData>();
+  // public onData: Subject<TrackerData> = new Subject<TrackerData>();
+  public onData: Subject<string> = new Subject<string>();
 
   constructor() { 
 
@@ -66,11 +67,11 @@ export class BluetoothService {
     });
   }
 
-  public async connect(device: BleDevice): Promise<any> {
+  public async connect(device: BleDevice): Promise<void> {
     await BleClient.connect(device.deviceId, this.deviceDisconnectHandler.bind(this));
     await BleClient.startNotifications(device.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC, (data: DataView) => {
       const s = new TextDecoder().decode(new Uint8Array(data.buffer));
-      this.onData.next(this.parseSerial(s));
+      this.onData.next(s);
     });
 
     this.connectedDevice = device;
@@ -96,15 +97,15 @@ export class BluetoothService {
     this.isEnabled = false;
   }
 
-  private parseSerial(s: string): TrackerData {
-    const data: any = s.split(':');
+  // private parseSerial(s: string): TrackerData {
+  //   const data: any = s.split(':');
 
-    const id = parseInt(data[0]);
-    const flags = data[1] >> 4;
-    const px = ((data[1] & 0x0f) << 6) | ((data[2] & 0xfc) >> 2);
-    const py = ((data[2] & 0x03) << 8) | data[3];
-    return {id: id, px: px, py: py, ts: Date.now()};
-  }
+  //   const id = parseInt(data[0]);
+  //   const flags = data[1] >> 4;
+  //   const px = ((data[1] & 0x0f) << 6) | ((data[2] & 0xfc) >> 2);
+  //   const py = ((data[2] & 0x03) << 8) | data[3];
+  //   return {id: id, px: px, py: py, ts: Date.now()};
+  // }
 
   private deviceDisconnectHandler(deviceId: string) {
     if (this.connectedDevice?.deviceId === deviceId) {
