@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { DeviceManagerComponent } from './device-manager/device-manager.component';
 import { MapComponent } from './map/map.component';
+import { DeviceComponent } from './device/device.component';
 
 const routes: Routes = [
   {
     path: 'device',
-    component: DeviceManagerComponent
+    component: DeviceComponent
   },
   {
     path: 'map',
