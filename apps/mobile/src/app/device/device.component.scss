@@ -20,6 +20,7 @@ div.content {
         padding-right: 24px;
         margin-bottom: 24px;
 
+        align-items: center;
         justify-content: space-between;
 
         span {
@@ -37,7 +38,22 @@ div.content {
 
     div.category {
         padding-left: 24px;
-        color: #414040;
+        color: #ffffff;
+    }
+
+    div.button {
+        width: 40px;
+        height: 40px;
+        border-radius: 24px;
+        background-color: #2F2E2E;
+        margin-right: 6px;
+
+        img {
+            width: 24px;
+            height: 24px;
+            margin-top: 8px;
+            margin-left: 8px;
+        }
     }
 
     div.device {
@@ -103,4 +119,17 @@ div.content {
         vertical-align: middle;
         margin: 24px;
     }
+}
+
+.rotating {
+  animation: rotate 1.2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }

@@ -65,11 +65,11 @@
   },
   "description": "An Ionic project",
   "browserslist": [
-    "Chrome >=79",
-    "ChromeAndroid >=79",
-    "Firefox >=70",
-    "Edge >=79",
-    "Safari >=14",
-    "iOS >=14"
+    "Chrome >= 117",
+    "ChromeAndroid >= 117",
+    "Firefox >= 115",
+    "Edge >= 117",
+    "Safari >= 16.4",
+    "iOS >= 16.4"
   ]
 }
