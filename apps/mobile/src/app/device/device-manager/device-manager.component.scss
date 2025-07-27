@@ -3,11 +3,14 @@
     flex-direction: column;
     align-items: stretch;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 h1 {
     padding-left: 42px;
     margin-bottom: 32px;
+
+     min-width: 320px;
 }
 
 div.setting {
@@ -15,6 +18,7 @@ div.setting {
     padding-left: 42px;
     padding-right: 32px;
     margin-bottom: 24px;
+     min-width: 320px;
 
     align-items: center;
     justify-content: space-between;
@@ -22,7 +26,6 @@ div.setting {
     span {
         margin-top: 8px;
     }
-
 }
 
 div.spacer {
@@ -35,6 +38,7 @@ div.spacer {
 div.category {
     padding-left: 42px;
     color: #ffffff;
+    min-width: 320px;
 }
 
 div.button {
@@ -73,11 +77,14 @@ div.device {
     line-height: 64px;
     vertical-align: middle;
     padding: 0 0 0 16px;
+    min-width: 320px;
 
     img.icon {
         width: 24px;
         margin: 20px 6px 0 20px;
     }
+
+
 }
 
 div.device.active {
@@ -86,7 +93,7 @@ div.device.active {
     padding: 14px 0 0 0;
 
     height: 96px;
-    border-radius: 12px;
+    border-radius: 14px;
 
     div.button.small {
         background-color: rgba(1, 1, 1, 0.15);

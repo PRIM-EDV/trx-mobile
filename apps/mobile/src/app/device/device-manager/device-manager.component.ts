@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, EventEmitter, Output } from '@angular/core';
 import { PhSwitch } from '@phobos/elements';
 import { CommonModule } from '@angular/common';
 
@@ -14,6 +14,7 @@ import { BluetoothService } from 'src/app/infrastructure/bluetooth/bluetooth.ser
     styleUrls: ['./device-manager.component.scss']
 })
 export class DeviceManagerComponent {
+    @Output() public openDetails = new EventEmitter<void>();
 
     public bluetoothEnabledState: boolean = false;
 
