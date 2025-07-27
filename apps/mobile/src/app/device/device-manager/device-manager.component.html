@@ -1,0 +1,28 @@
+<h1>Device</h1>
+
+<div class="setting">
+    <span>Bluetooth</span>
+    <ph-switch [(selected)]="bluetoothEnabledState" (click)="changeBluetoothEnabledState()"></ph-switch>
+</div>
+
+<div *ngIf="this.bluetooth.connectedDevice()" class="device active">
+    <img class="icon" src="assets/img/bluetooth_connected.svg" />
+    <div class="connected">
+        <span>{{this.bluetooth.connectedDevice()!.name}}</span>
+        <span>Connected</span>
+    </div>
+    <div class="button small" (click)="scan()">
+        <img src="assets/img/arrow_forward.svg" [ngClass]="{ rotating: bluetooth.isScanning() }" />
+    </div>
+</div>
+
+<div class="setting">
+    <span>Available devices</span>
+    <div class="button" (click)="scan()">
+        <img src="assets/img/sync.svg" [ngClass]="{ rotating: bluetooth.isScanning() }" />
+    </div>
+</div>
+<div class="device" *ngFor="let device of bluetooth.availableDevices()" (click)="bluetooth.connect(device)">
+    <img class="icon" src="assets/img/bluetooth.svg" />
+    {{device.name}}
+</div>

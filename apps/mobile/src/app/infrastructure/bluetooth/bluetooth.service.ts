@@ -1,9 +1,21 @@
 import { computed, effect, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { BleClient, BleDevice, numberToUUID, ScanResult } from '@capacitor-community/bluetooth-le';
+import { BleClient, BleDevice, numberToUUID } from '@capacitor-community/bluetooth-le';
 import { Subject } from 'rxjs';
 
 const CUSTOM_SERVICE = numberToUUID(0xffe0);
 const CUSTOM_CHARACTERISTIC = numberToUUID(0xffe1);
+
+const TEST_DEVICE: BleDevice = {
+  deviceId: 'test-device-id',
+  name: 'Test Device',
+  // Add other properties as needed
+};
+
+const TEST_DEVICE2: BleDevice = {
+  deviceId: 'test-device-id2',
+  name: 'Test Device2',
+  // Add other properties as needed
+};
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +46,8 @@ export class BluetoothService {
     return this.connectedDeviceSource();
   });
 
-  private bondedDevicesSource: WritableSignal<BleDevice[]> = signal([]);
-  private connectedDeviceSource: WritableSignal<BleDevice | null> = signal(null);
+  private bondedDevicesSource: WritableSignal<BleDevice[]> = signal([TEST_DEVICE2]);
+  private connectedDeviceSource: WritableSignal<BleDevice | null> = signal(TEST_DEVICE);
   private scannedDevicesSource: WritableSignal<BleDevice[]> = signal([]);
 
   private storeConnectedDevice = effect(() => {

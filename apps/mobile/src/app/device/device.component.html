@@ -1,38 +1,3 @@
 <div class="content">
-  <h1 >Device</h1>
-  <div class="setting">
-    <span>Bluetooth</span>
-    <ph-switch [(selected)]="bluetoothEnabledState" (click)="changeBluetoothEnabledState()"></ph-switch>
-  </div>
-  <!-- <div *ngIf="this.bluetooth.connectedDevice" class="device">
-    <img src="assets/img/bluetooth_connected.svg" />
-    <div class="connected">
-      <span>{{this.bluetooth.connectedDevice.name}}</span>
-      <span>Connected</span>
-    </div>
-    <img src="assets/img/delete.svg" (click)="bluetooth.disconnect()" />
-  </div>
-
-  -->
-  <div class="spacer"></div>
-  <div class="setting">
-    <span>Available devices</span>
-    <div class="button" (click)="scan()">
-      <img src="assets/img/sync.svg" class="rotating" />
-    </div>
-  </div>
-  <!-- <div class="device" *ngFor="let device of availableDevicesWithoutConnectedDevice()" (click)="connect(device)"> -->
-    <div class="device" *ngFor="let device of bluetooth.availableDevices()">
-      <img src="assets/img/bluetooth.svg" />
-      {{device.name}}
-      <!-- <img *ngIf="isConnecting" src="assets/img/spinner.svg" /> -->
-    </div>
-  <div class="device" style="margin-top: 6px;">
-    <!-- <img src="assets/img/add.svg" /> Add new device <img *ngIf="bluetooth.isScanning" src="assets/img/spinner.svg" /> -->
-  </div>
-  <!-- <div class="spacer"></div>
-  <div class="category">
-    Configuration
-  </div> -->
-
+  <app-device-manager></app-device-manager>
 </div>
