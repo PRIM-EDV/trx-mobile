@@ -4,6 +4,7 @@
   "workspaces": [
     "apps/*",
     "libs/*",
+    "libs/trx/*",
     "libs/phobos/*",
     "libs/phobos-maptool/*"
   ],

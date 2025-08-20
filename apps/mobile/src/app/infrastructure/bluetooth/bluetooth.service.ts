@@ -25,9 +25,10 @@ export class BluetoothService {
   public isConnected: boolean = false;
   public isEnabled: WritableSignal<boolean> = signal(false);
   public isScanning: WritableSignal<boolean> = signal(false);
+
   public onConnect: Subject<any> = new Subject<any>();
   public onDisconnect: Subject<void> = new Subject<void>();
-  public onData: Subject<string> = new Subject<string>();
+  public onData: Subject<Uint8Array> = new Subject<Uint8Array>();
 
   public availableDevices: Signal<BleDevice[]> = computed(() => {
     const allDevices = [
@@ -59,10 +60,10 @@ export class BluetoothService {
     }
   });
 
-  constructor() { 
+  constructor() {
 
     BleClient.initialize();
-    
+
     BleClient.isEnabled().then(() => {
       this.isEnabled.set(true);
     }, () => {
@@ -75,18 +76,18 @@ export class BluetoothService {
   /**
    * Scans for available Bluetooth devices.
    */
-  public scan(): void{
+  public scan(): void {
     if (this.isScanning()) {
       console.warn("Already scanning for devices.");
       return;
     }
-    
+
     this.isScanning.set(true);
     this.scannedDevicesSource.set([]);
 
     // Start scanning for devices
     BleClient.requestLEScan(
-      {services: [CUSTOM_SERVICE]},
+      { services: [CUSTOM_SERVICE] },
       (result) => {
         this.scannedDevicesSource.update((devices) => {
           devices.push(result.device);
@@ -94,11 +95,11 @@ export class BluetoothService {
         });
       }
     ).then()
-    .catch((error) => {
-      this.isScanning.set(false);
-      BleClient.stopLEScan();
-      console.error("Error starting scan:", error);
-    });
+      .catch((error) => {
+        this.isScanning.set(false);
+        BleClient.stopLEScan();
+        console.error("Error starting scan:", error);
+      });
 
     // Stop scanning after 5 seconds
     setTimeout(() => {
@@ -110,8 +111,7 @@ export class BluetoothService {
   public async connect(device: BleDevice): Promise<void> {
     await BleClient.connect(device.deviceId, this.deviceDisconnectHandler.bind(this));
     await BleClient.startNotifications(device.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC, (data: DataView) => {
-      const s = new TextDecoder().decode(new Uint8Array(data.buffer));
-      this.onData.next(s);
+      this.onData.next(new Uint8Array(data.buffer));
     });
 
     this.connectedDeviceSource.set(device);
@@ -148,6 +148,22 @@ export class BluetoothService {
     } catch (error) {
       console.error("Error disabling Bluetooth:", error);
     }
+  }
+
+  public async sendData(data: Uint8Array) {
+    const connectedDevice = this.connectedDevice();
+    if (!connectedDevice) {
+      console.warn("No device connected to send data.");
+      return;
+    }
+
+    try {
+      const dataView = new DataView(data.buffer);
+      await BleClient.write(connectedDevice.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC, dataView);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+
   }
 
   private deviceDisconnectHandler(deviceId: string) {
