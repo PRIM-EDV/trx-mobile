@@ -1,0 +1,22 @@
+:host {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+div.content {
+    display: flex;
+    flex-grow: 1;
+    background-color: #181818;
+    max-width: 768px;
+
+    .inactive {
+        width: 0px;
+        max-width: 0px !important;
+    } 
+
+    .animate-width {
+        max-width: 768px;
+        transition: max-width 0.5s;
+    }
+}

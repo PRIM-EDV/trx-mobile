@@ -27,6 +27,7 @@ platforms/**
 dist
 build
 www
+android
 
 # Node
 node_modules

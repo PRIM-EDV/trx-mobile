@@ -1,70 +1,110 @@
-import { Injectable } from '@angular/core';
-import { BleClient, BleDevice, numberToUUID, ScanResult } from '@capacitor-community/bluetooth-le';
-import { Observable, Subject } from 'rxjs';
-
-// export interface TrackerData {
-//   id: number;
-//   px: number;
-//   py: number;
-//   ts: number;
-// }
+import { computed, effect, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { BleClient, BleDevice, numberToUUID } from '@capacitor-community/bluetooth-le';
+import { Subject } from 'rxjs';
 
 const CUSTOM_SERVICE = numberToUUID(0xffe0);
 const CUSTOM_CHARACTERISTIC = numberToUUID(0xffe1);
+
+const TEST_DEVICE: BleDevice = {
+  deviceId: 'test-device-id',
+  name: 'Test Device',
+  // Add other properties as needed
+};
+
+const TEST_DEVICE2: BleDevice = {
+  deviceId: 'test-device-id2',
+  name: 'Test Device2',
+  // Add other properties as needed
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class BluetoothService {
 
-  public connectedDevice: any = null;
   public isConnected: boolean = false;
-  public isEnabled: boolean = false;
-  public isScanning: boolean = false;
-
+  public isEnabled: WritableSignal<boolean> = signal(false);
+  public isScanning: WritableSignal<boolean> = signal(false);
   public onConnect: Subject<any> = new Subject<any>();
   public onDisconnect: Subject<void> = new Subject<void>();
-  // public onData: Subject<TrackerData> = new Subject<TrackerData>();
   public onData: Subject<string> = new Subject<string>();
+
+  public availableDevices: Signal<BleDevice[]> = computed(() => {
+    const allDevices = [
+      ...this.bondedDevicesSource(),
+      ...this.scannedDevicesSource()
+    ];
+
+    return allDevices
+      .filter(device => device.deviceId !== this.connectedDeviceSource()?.deviceId)
+      .filter((device, index, self) =>
+        index === self.findIndex(d => d.deviceId === device.deviceId)
+      );
+  });
+
+  public connectedDevice: Signal<BleDevice | null> = computed(() => {
+    return this.connectedDeviceSource();
+  });
+
+  private bondedDevicesSource: WritableSignal<BleDevice[]> = signal([TEST_DEVICE2]);
+  private connectedDeviceSource: WritableSignal<BleDevice | null> = signal(TEST_DEVICE);
+  private scannedDevicesSource: WritableSignal<BleDevice[]> = signal([]);
+
+  private storeConnectedDevice = effect(() => {
+    const device = this.connectedDevice();
+    if (device) {
+      localStorage.setItem('ble.device', JSON.stringify(device));
+    } else {
+      localStorage.removeItem('ble.device');
+    }
+  });
 
   constructor() { 
 
     BleClient.initialize();
     
     BleClient.isEnabled().then(() => {
-      this.isEnabled = true;
+      this.isEnabled.set(true);
     }, () => {
-      this.isEnabled = false;
+      this.isEnabled.set(false);
     });
 
     this.autoconnectFromStore();
   }
 
-  public getAvailableDevices(): Observable<ScanResult> {
-    BleClient.stopLEScan();
-
-    if (this.isScanning) {
-      return new Observable((observer) => {
-        observer.error("Scanning already in progress");
-      });
+  /**
+   * Scans for available Bluetooth devices.
+   */
+  public scan(): void{
+    if (this.isScanning()) {
+      console.warn("Already scanning for devices.");
+      return;
     }
+    
+    this.isScanning.set(true);
+    this.scannedDevicesSource.set([]);
 
-    return new Observable((observer) => {
-      BleClient.requestLEScan({
-        services: [
-          CUSTOM_SERVICE
-        ]
-      }, (device) => {
-        observer.next(device);
-      });
-      this.isScanning = true;
-
-      window.setTimeout(async () => {
-        this.isScanning = false;
-        observer.complete();
-        await BleClient.stopLEScan();
-      }, 5000);
+    // Start scanning for devices
+    BleClient.requestLEScan(
+      {services: [CUSTOM_SERVICE]},
+      (result) => {
+        this.scannedDevicesSource.update((devices) => {
+          devices.push(result.device);
+          return [...devices];
+        });
+      }
+    ).then()
+    .catch((error) => {
+      this.isScanning.set(false);
+      BleClient.stopLEScan();
+      console.error("Error starting scan:", error);
     });
+
+    // Stop scanning after 5 seconds
+    setTimeout(() => {
+      this.isScanning.set(false);
+      BleClient.stopLEScan();
+    }, 5000);
   }
 
   public async connect(device: BleDevice): Promise<void> {
@@ -74,52 +114,51 @@ export class BluetoothService {
       this.onData.next(s);
     });
 
-    this.connectedDevice = device;
+    this.connectedDeviceSource.set(device);
     this.onConnect.next(device);
-
-    this.storeConnectedDevice(device);
   }
 
   public disconnect() {
-    BleClient.stopNotifications(this.connectedDevice.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC);
-    BleClient.disconnect(this.connectedDevice.deviceId);
-    this.connectedDevice = null;
+    const connectedDevice = this.connectedDevice();
+
+    if (!connectedDevice) {
+      console.warn("No device connected to disconnect.");
+      return;
+    }
+
+    BleClient.stopNotifications(connectedDevice.deviceId, CUSTOM_SERVICE, CUSTOM_CHARACTERISTIC);
+    BleClient.disconnect(connectedDevice.deviceId);
+    this.connectedDeviceSource.set(null);
     this.onDisconnect.next();
   }
 
   public async enable() {
-    await BleClient.enable();
-    this.isEnabled = true;
+    try {
+      await BleClient.enable();
+      this.isEnabled.set(true);
+    } catch (error) {
+      console.error("Error enabling Bluetooth:", error);
+    }
   }
 
   public async disable() {
-    await BleClient.disable();
-    this.isEnabled = false;
+    try {
+      await BleClient.disable();
+      this.isEnabled.set(false);
+    } catch (error) {
+      console.error("Error disabling Bluetooth:", error);
+    }
   }
 
-  // private parseSerial(s: string): TrackerData {
-  //   const data: any = s.split(':');
-
-  //   const id = parseInt(data[0]);
-  //   const flags = data[1] >> 4;
-  //   const px = ((data[1] & 0x0f) << 6) | ((data[2] & 0xfc) >> 2);
-  //   const py = ((data[2] & 0x03) << 8) | data[3];
-  //   return {id: id, px: px, py: py, ts: Date.now()};
-  // }
-
   private deviceDisconnectHandler(deviceId: string) {
-    if (this.connectedDevice?.deviceId === deviceId) {
-      this.connectedDevice = null;
+    if (this.connectedDevice()?.deviceId === deviceId) {
+      this.connectedDeviceSource.set(null);
       this.onDisconnect.next();
     }
   }
 
-  private storeConnectedDevice(device: BleDevice) {
-    localStorage.setItem('connectedDevice', JSON.stringify(device));
-  }
-
   private async autoconnectFromStore(): Promise<void> {
-    const device = localStorage.getItem('connectedDevice');
+    const device = localStorage.getItem('ble.device');
     if (device) {
       await this.connect(JSON.parse(device));
     }

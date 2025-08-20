@@ -1,6 +1,9 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "build": "lerna run build"
+  },
   "workspaces": [
     "apps/*",
     "libs/*",
@@ -12,6 +15,8 @@
     "start": "npm run -w apps/mobile start"
   },
   "devDependencies": {
-    "lerna": "^8.2.2"
+    "lerna": "^8.2.2",
+    "@angular/cli": "^20.1.3",
+    "@angular/compiler-cli": "^20.1.3"
   }
 }

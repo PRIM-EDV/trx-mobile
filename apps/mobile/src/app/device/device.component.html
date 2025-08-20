@@ -1,0 +1,4 @@
+<div class="content">
+  <app-device-manager class="animate-width" [ngClass]="{ inactive: showDetails }" (openDetails)="showDetails = true"></app-device-manager>
+  <app-device-detail class="animate-width" [ngClass]="{ inactive: !showDetails }"></app-device-detail>
+</div>

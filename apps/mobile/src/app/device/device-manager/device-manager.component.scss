@@ -1,0 +1,149 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+h1 {
+    padding-left: 42px;
+    margin-bottom: 32px;
+
+     min-width: 320px;
+}
+
+div.setting {
+    display: flex;
+    padding-left: 42px;
+    padding-right: 32px;
+    margin-bottom: 24px;
+     min-width: 320px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+        margin-top: 8px;
+    }
+}
+
+div.spacer {
+    height: 1px;
+    background-color: #2F2E2E;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+div.category {
+    padding-left: 42px;
+    color: #ffffff;
+    min-width: 320px;
+}
+
+div.button {
+    width: 40px;
+    height: 40px;
+    border-radius: 24px;
+    background-color: #2F2E2E;
+    margin-right: 6px;
+
+    img {
+        width: 24px;
+        height: 24px;
+        margin-top: 8px;
+        margin-left: 8px;
+    }
+}
+
+div.button.small {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    line-height: 32px;
+
+    img {
+        width: 20px;
+        height: 20px;
+        margin-top: 6px;
+        margin-left: 6px;
+    }
+}
+
+div.device {
+    display: grid;
+    grid-template-columns: 66px 1fr 66px;
+    font-size: 18px;
+    line-height: 64px;
+    vertical-align: middle;
+    padding: 0 0 0 16px;
+    min-width: 320px;
+
+    img.icon {
+        width: 24px;
+        margin: 20px 6px 0 20px;
+    }
+
+
+}
+
+div.device.active {
+    background-color: #28343e;
+    margin: 0 20px 24px 20px;
+    padding: 14px 0 0 0;
+
+    height: 96px;
+    border-radius: 14px;
+
+    div.button.small {
+        background-color: rgba(1, 1, 1, 0.15);
+        margin-top: 18px;
+        margin-left: 12px;
+    }
+}
+
+div.device.disabled {
+    color: #414040;
+
+    .cls-1 {
+        fill: #414040;
+    }
+}
+
+div.connected {
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    margin-top: 12px;
+    span {
+        font-size: 18px;
+
+    }
+
+    span:nth-child(2) {
+        font-size: 12px;
+        color: #bbb;
+    }
+}
+
+div.available {
+    font-size: 18px;
+    height: 48px;
+    line-height: 48px;
+    vertical-align: middle;
+    margin: 24px;
+}
+
+
+.rotating {
+  animation: rotate 1.2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
