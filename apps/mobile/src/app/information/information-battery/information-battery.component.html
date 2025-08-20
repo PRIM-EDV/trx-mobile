@@ -1,0 +1,30 @@
+@switch(true) {
+    @case (battery < 5) {
+        <img src="assets/img/battery/battery_alert_bar.svg"/>
+    }
+    @case (5 <= battery && battery < 15) {
+        <img src="assets/img/battery/battery_0_bar.svg"/>
+    }
+    @case (15 <= battery && battery < 30) {
+        <img src="assets/img/battery/battery_1_bar.svg"/>
+    }
+    @case (30 <= battery && battery < 45) {
+        <img src="assets/img/battery/battery_2_bar.svg"/>
+    }
+    @case (45 <= battery && battery < 60) {
+        <img src="assets/img/battery/battery_3_bar.svg"/>
+    }
+    @case (60 <= battery && battery < 75) {
+        <img src="assets/img/battery/battery_4_bar.svg"/>
+    }
+    @case (75 <= battery && battery < 90) {
+        <img src="assets/img/battery/battery_5_bar.svg"/>
+    }
+    @case (90 <= battery && battery < 95) {
+        <img src="assets/img/battery/battery_6_bar.svg"/>
+    }
+    @case ( battery > 95) {
+        <img src="assets/img/battery/battery_full_bar.svg"/>
+    }
+}
+<span>{{battery}}%</span>

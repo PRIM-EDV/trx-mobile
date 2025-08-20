@@ -7,6 +7,10 @@
     "libs/phobos/*",
     "libs/phobos-maptool/*"
   ],
+  "scripts": {
+    "build": "npx lerna run build",
+    "start": "npm run -w apps/mobile start"
+  },
   "devDependencies": {
     "lerna": "^8.2.2"
   }
