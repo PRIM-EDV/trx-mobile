@@ -1,11 +1,11 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
-import { MapEntity } from "@phobos-maptool/models";
+import { Entity } from "@trx/map";
 
 @Injectable({ providedIn: "root" })
 export class MapEntityService {
-  public entities: WritableSignal<MapEntity[]> = signal<MapEntity[]>([]);
+  public entities: WritableSignal<Entity[]> = signal<Entity[]>([]);
 
-  public setEntity(entity: MapEntity) {
+  public setEntity(entity: Entity) {
     const existing = this.entities().find((e) => e.id === entity.id);
     if (existing) {
       this.updateEntity(existing, entity);
@@ -15,17 +15,17 @@ export class MapEntityService {
     }
   }
 
-  public setEntities(entities: MapEntity[]) {
+  public setEntities(entities: Entity[]) {
     this.entities.set(entities);
   }
 
-  public deleteEntity(deleted: MapEntity) {
+  public deleteEntity(deleted: Entity) {
     this.entities.update((entities) => {
       return entities.filter((entity) => entity.id !== deleted.id);
     });
   }
 
-  private updateEntity(existing: MapEntity, updated: MapEntity) {
+  private updateEntity(existing: Entity, updated: Entity) {
     this.entities.update((entities) => {
       return entities.map((entity) => {
         if (entity.id === existing.id) {

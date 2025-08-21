@@ -17,6 +17,7 @@ export class TrackerService {
     private rpc: TrackerRpcAdapter
   ) {
     this.bluetooth.onConnect.subscribe(this.onConnectHandler.bind(this));
+    
   }
 
   private async onConnectHandler() {
@@ -28,12 +29,13 @@ export class TrackerService {
       version: deviceInfo.fwVersion,
       battery: {
         level: batteryStatus.batteryLevel,
-        charging: batteryStatus.charging
+        charging: batteryStatus.isCharging
       },
       position: {
-        x: deviceInfo.position.x,
-        y: deviceInfo.position.y
+        x: 0,
+        y: 0
       }
     });
   }
+
 }

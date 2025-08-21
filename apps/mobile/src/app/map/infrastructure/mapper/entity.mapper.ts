@@ -1,39 +1,32 @@
 import { Entity, EntityState, EntityType } from "@trx/map";
-import { MapEntity, MapEntityStatus, MapEntityType } from "@phobos-maptool/models";
+import { Entity as TrxEntity, Type } from "@trx/protocol"
 
-export function toEntity(entity: MapEntity): Entity {
+
+export function toEntity(entity: TrxEntity): Entity {
   const base = {
-    id: entity.id,
+    id: entity.id.toString(),
     position: {
-      x: entity.position.x,
-      y: entity.position.y,
+      x: entity.position!.x,
+      y: entity.position!.y,
     },
     symbol: -1
   };
 
   switch (entity.type) {
-    case MapEntityType.FOE:
-      return {
-        ...base,
-        type: EntityType.FOE,
-        size: entity.entity.combattants,
-        text: "",
-        state: EntityState.NORMAL,
-      };
-    case MapEntityType.FRIEND:
+    case Type.SQUAD:
       return {
         ...base,
         type: EntityType.FRIEND,
-        size: entity.entity.combattants,
-        text: entity.entity.callsign,
-        state: entity.entity.status == MapEntityStatus.COMBAT ? EntityState.BATTLE : EntityState.NORMAL,      
+        size: entity.size,
+        text: "",
+        state: EntityState.NORMAL,
       };
-    case MapEntityType.OBJECT:
+    case Type.ENEMY:
       return {
         ...base,
-        type: EntityType.OBJECT,
-        size: 0,
-        text: entity.entity.name,
+        type: EntityType.FOE,
+        size: entity.size,
+        text: "",
         state: EntityState.NORMAL,
       };
     default:
