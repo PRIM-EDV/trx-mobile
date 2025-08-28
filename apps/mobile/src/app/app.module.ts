@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PhNavigationBar } from './infrastructure/ui/navigation-bar/navigation-bar-component/navigation-bar.component';
 import { PhNavigationBarTarget } from './infrastructure/ui/navigation-bar/navigation-bar-target-component/navigation-bar-target.component';
 import { InformationComponent } from './information/information.component';
+import { TrackerGateway } from './common/tracker/tracker.gateway';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,4 +24,6 @@ import { InformationComponent } from './information/information.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private gateway: TrackerGateway) {}
+}
