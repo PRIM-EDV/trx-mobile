@@ -1,5 +1,5 @@
 <div class="header">
-  <img class="back" src="assets/img/arrow_back.svg" (click)="back()" />
+  <img class="back" src="assets/img/arrow_back.svg" (click)="back.emit()" />
   <span>Device</span>
 </div>
 
@@ -14,23 +14,27 @@
     <div class="detail">
         <img class="icon" src="assets/img/numbers.svg" />
         <span class="label">Tracker ID</span>
-        <span class="value">No. 1</span>
+        <span class="value">{{ tracker.device()?.id }}</span>
     </div>
     <div class="detail">
         <img class="icon" src="assets/img/battery.svg" />
         <span class="label">Battery</span>
-        <span class="value">97%</span>
+        <span class="value">{{ tracker.device()?.battery }}%</span>
     </div>
         <div class="detail">
         <img class="icon" src="assets/img/memory.svg" />
         <span class="label">Firmware</span>
-        <span class="value">1.0.1</span>
+        <span class="value">{{ tracker.device()?.version }}</span>
     </div>
         <div class="detail">
         <img class="icon" src="assets/img/location.svg" />
         <span class="label">Position</span>
-        <span class="value">X:123 Y:456</span>
+        <span class="value">X:{{ tracker.device()?.position!.x }} Y:{{ tracker.device()?.position!.y }}</span>
     </div>
 </div>
 
 <div class="spacer"></div>
+
+<div class="actions">
+    <span style="color: red;" (click)="bluetooth.disconnect(); back.emit()">Disconnect Device</span>
+</div>

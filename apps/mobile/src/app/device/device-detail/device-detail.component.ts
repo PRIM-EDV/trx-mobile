@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { PhSwitch } from '@phobos/elements';
+import { TrackerService } from 'src/app/common/tracker/tracker.service';
+import { BluetoothService } from 'src/app/infrastructure/bluetooth/bluetooth.service';
 
 
 @Component({
@@ -11,9 +13,10 @@ import { PhSwitch } from '@phobos/elements';
     styleUrls: ['./device-detail.component.scss']
 })
 export class DeviceDetailComponent {
+    @Output() back = new EventEmitter<void>();
 
-    public back() {
-        // Logic to navigate back to the previous view
-        console.log('Back button clicked');
-    }
+    constructor(
+        public readonly bluetooth: BluetoothService,
+        public readonly tracker: TrackerService
+    ) { }
 }

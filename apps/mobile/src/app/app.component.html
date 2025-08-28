@@ -3,15 +3,13 @@
   <ion-router-outlet></ion-router-outlet>
 
   <!-- Navigation-bar -->
-  <ph-navigation-bar [class.hidden]="currentRoute=='/map' && !showNavigationBar">
-    <ph-navigation-bar-target target="/map" icon="explore">
-      Map
-    </ph-navigation-bar-target>
-    <ph-navigation-bar-target target="/device" icon="settings">
-      Device
-    </ph-navigation-bar-target>
+  <ph-navigation-bar [class.hidden]="currentRoute == '/map' && !showNavigationBar">
+    <ph-navigation-bar-target target="/map" icon="explore"> Map </ph-navigation-bar-target>
+    <ph-navigation-bar-target target="/device" icon="settings"> Device </ph-navigation-bar-target>
   </ph-navigation-bar>
 
   <!-- Information overlay -->
-  <app-information></app-information>
+  @if (showInformationBar) {
+    <app-information></app-information>
+  }
 </ion-app>

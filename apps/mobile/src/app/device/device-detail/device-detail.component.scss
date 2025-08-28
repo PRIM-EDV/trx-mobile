@@ -84,3 +84,19 @@ div.spacer {
     margin-top: 24px;
     margin-bottom: 24px;
 }
+
+div.actions {
+    display: flex;
+    padding-top: 16px;
+    padding-left: 32px;
+
+    span {
+        font-size: 18px;
+        color: #fff;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

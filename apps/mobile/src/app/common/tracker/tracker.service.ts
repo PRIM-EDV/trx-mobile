@@ -17,7 +17,12 @@ export class TrackerService {
     private rpc: TrackerRpcAdapter
   ) {
     this.bluetooth.onConnect.subscribe(this.onConnectHandler.bind(this));
-    
+
+    setInterval(() => {
+      if (this.bluetooth.isConnected && this.device()) {
+        this.updateBattery();
+      }
+    }, 10000);
   }
 
   private async onConnectHandler() {
@@ -36,6 +41,19 @@ export class TrackerService {
         y: 0
       }
     });
+  }
+
+  private async updateBattery() {
+    const batteryStatus = await this.rpc.getBatteryStatus();
+    this.device.update((prev) => ({
+      id: prev?.id ?? "",
+      version: prev!.version ?? "",
+      position: prev?.position ?? { x: 0, y: 0 },
+      battery: {
+        level: batteryStatus.batteryLevel,
+        charging: batteryStatus.isCharging
+      }
+    }));
   }
 
 }
