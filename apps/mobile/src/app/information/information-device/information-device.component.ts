@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { Tracker } from "src/app/common/tracker/models/tracker.model";
 
 @Component({
     selector: "app-information-device",
@@ -6,5 +7,5 @@ import { Component } from "@angular/core";
     styleUrls: ["./information-device.component.scss"]
 })
 export class InformationDeviceComponent {
-    // Component logic goes here
+    @Input() device: Tracker | null = null;
 }
