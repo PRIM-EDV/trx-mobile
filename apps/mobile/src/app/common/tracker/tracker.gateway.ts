@@ -71,11 +71,8 @@ export class TrackerGateway {
     const frames = this.parser.feed(data);
 
     for (const frame of frames) {
-      console.log(frame);
-      let cobs = decode(frame);
-      console.log(cobs);
+      let cobs = decode(new Uint8Array([...frame, 0]));
       const msg = TrxMessage.decode(cobs);
-      console.log("TrxGateway: Received message", msg);
 
       if (msg.request) {
         this.onRequest.next({ id: msg.id, request: msg.request });

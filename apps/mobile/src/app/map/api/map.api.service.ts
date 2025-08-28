@@ -16,7 +16,7 @@ export class MapApiService {
     this.gateway.onRequest.subscribe(this.handleRequest.bind(this));
   }
 
-  private async setMapEntity(request: SetEntity_Request): Promise<SetEntity_Response> {
+  private async setEntity(request: SetEntity_Request): Promise<SetEntity_Response> {
     const entityDto = request.entity!;
 
     this.entity.setEntity(toEntity(entityDto));
@@ -24,6 +24,7 @@ export class MapApiService {
   }
 
   private async handleRequest(e: { id: string, request: Request }) {
+    console.log("MapApiService: handleRequest", e);
     const method = Object.keys(e.request).find(key => (e.request as any)[key] !== undefined);
 
     if (method) {

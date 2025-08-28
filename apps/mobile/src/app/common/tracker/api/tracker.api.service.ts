@@ -15,15 +15,16 @@ export class TrackerApiService {
     this.gateway.onRequest.subscribe(this.handleRequest.bind(this));
   }
 
-private handleRequest({ id, request }: { id: string; request: Request }) {
+  private handleRequest({ id, request }: { id: string; request: Request }) {
     const entity = request.setEntity?.entity;
 
-    if (entity?.id === 0) {
-        const tracker = this.tracker.device();
+    //     if (entity?.id === 0) {
+    //         const tracker = this.tracker.device();
 
-        if (tracker) {
-            tracker.position = entity.position!;
-        }
-    }
-}
+    //         if (tracker) {
+    //             tracker.position = entity.position!;
+    //         }
+    //     }
+    // }
+  }
 }

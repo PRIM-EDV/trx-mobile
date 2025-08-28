@@ -3,6 +3,7 @@ import { Entity, TrxMap } from '@trx/map';
 
 import { MapEntityService } from './core/map-entity.service';
 import { toEntity } from './infrastructure/mapper/entity.mapper';
+import { MapApiService } from './api/map.api.service';
 
 @Component({
   selector: 'app-map',
@@ -22,5 +23,6 @@ export class MapComponent {
 
   constructor(
     public readonly  entity: MapEntityService,
+    private readonly api: MapApiService
   ) { }
 }
