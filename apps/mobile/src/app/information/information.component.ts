@@ -1,5 +1,4 @@
 import { Component, signal, WritableSignal } from "@angular/core";
-import { DeviceService } from "../device/device.service";
 import { InformationBatteryComponent } from "./information-battery/information-battery.component";
 
 @Component({
@@ -13,6 +12,5 @@ export class InformationComponent {
     public battery: WritableSignal<number> = signal(0);
 
     constructor(
-        public device: DeviceService
     ) {}
 }

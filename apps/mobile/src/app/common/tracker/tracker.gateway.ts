@@ -4,6 +4,8 @@ import { Subject, Subscription } from "rxjs";
 import { v4 as uuidv4 } from 'uuid';
 import { BluetoothService } from "src/app/infrastructure/bluetooth/bluetooth.service";
 
+import * as cobs from 'cobs';
+
 @Injectable({
   providedIn: "root",
 })
@@ -37,7 +39,7 @@ export class TrackerGateway {
       }
       this.requests.set(msg.id, resolve.bind(this));
       setTimeout(this.rejectOnTimeout.bind(this, msg.id, reject.bind(this, `${req} timed out`)), 5000);
-      await this.bluetooth.sendData(TrxMessage.encode(msg).finish());
+      await this.bluetooth.sendData(cobs.encode(TrxMessage.encode(msg).finish()));
     });
 
   }
@@ -48,12 +50,12 @@ export class TrackerGateway {
       response: res
     }
 
-    await this.bluetooth.sendData(TrxMessage.encode(msg).finish());
+    await this.bluetooth.sendData(cobs.encode(TrxMessage.encode(msg).finish()));
   }
 
   private handleMessage(data: Uint8Array) {
-    const msg = TrxMessage.decode(data);
-    console.log('MaptoolGateway: Received message', msg);
+    const msg = TrxMessage.decode(cobs.decode(data));
+    console.log('TrxGateway: Received message', msg);
 
     if (msg.request) {
       this.onRequest.next({ id: msg.id, request: msg.request });

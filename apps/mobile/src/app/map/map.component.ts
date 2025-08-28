@@ -16,7 +16,8 @@ import { toEntity } from './infrastructure/mapper/entity.mapper';
 export class MapComponent {
 
   public entities: Signal<Entity[]> = computed(() => {
-    return this.entity.entities().map((e) => toEntity(e));
+    return []
+    // return this.entity.entities().map((e) => toEntity(e));
   }); 
 
   constructor(
