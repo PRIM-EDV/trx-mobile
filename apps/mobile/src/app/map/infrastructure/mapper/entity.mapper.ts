@@ -1,8 +1,8 @@
 import { Entity, EntityState, EntityType } from "@trx/map";
-import { Entity as TrxEntity, Type } from "@trx/protocol"
+import { Entity as entityDto, Type } from "@trx/protocol"
 
 
-export function toEntity(entity: TrxEntity): Entity {
+export function toEntity(entity: entityDto): Entity {
   const base = {
     id: entity.id.toString(),
     position: {
@@ -16,7 +16,7 @@ export function toEntity(entity: TrxEntity): Entity {
     case Type.SQUAD:
       return {
         ...base,
-        type: EntityType.FRIEND,
+        type: entity.id === 0 ? EntityType.SELF : EntityType.FRIEND,
         size: entity.size,
         text: "",
         state: EntityState.NORMAL,

@@ -17,9 +17,8 @@ import { MapApiService } from './api/map.api.service';
 export class MapComponent {
 
   public entities: Signal<Entity[]> = computed(() => {
-    return []
-    // return this.entity.entities().map((e) => toEntity(e));
-  }); 
+    return this.entity.entities().map((e) => e.entity);
+  });
 
   constructor(
     public readonly  entity: MapEntityService,
